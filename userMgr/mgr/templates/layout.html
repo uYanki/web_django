@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <center>
+        <h1>UserInfoMgr</h1>
+        <a href="{% url 'user_list' %}">list</a>
+        <a href="{% url 'user_add' %}">add</a>
+        <hr/>
+        {% block content %}{% endblock %}
+    </center>
+</body>
+</html>

@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <title>网络请求库</title>
+</head>
+
+<body>
+    <!-- ------------------------------------------------------------- -->
+    <div>
+        基本使用:
+        <input type="button" value="[get]" class="get">
+        <input type="button" value="[post]" class="post">
+    </div>
+    <script>
+        // 需先通过选择器获取对象
+        document.querySelector(".get").onclick = function () {
+            axios.get("https://autumnfish.cn/api/joke/list?num=3")
+                .then(function (response) { console.log(response.data.jokes); },
+                    function (err) { console.log(err); });
+        }
+        document.querySelector(".post").onclick = function () {
+            axios.post("https://autumnfish.cn/api/user/reg", { username: "admin" })
+                .then(function (response) { console.log(response); },
+                    function (err) { console.log(err); });
+        }
+        // get(地址?查询字符串) key1=value1&key2=value2...
+        // post(地址,对象)     {key1:value1,key2:value2}
+
+    </script>
+    <hr>
+    <!-- ------------------------------------------------------------- -->
+    <div id="app">
+        配合vue使用:
+        <input type="button" value="[get]" @click="vget">
+        <label>{{joke}}</label>
+    </div>
+    <script>
+        var app = new Vue({
+            el: "#app",
+            data: {
+                joke: ""
+            },
+            methods: {
+                vget: function () {
+                    var that = this;
+                    // axios里this指针指向会改变,所以这里用that储存
+                    axios.get("https://autumnfish.cn/api/joke")
+                        .then(function (response) {
+                            console.log(response);
+                            that.joke = response.data;
+                        }, function (err) { console.log(err); });
+                },
+                vpost: function () { },
+            }
+        })
+    </script>
+    <hr>
+    <div id="weather">
+        <div>
+            <input type="text" placeholder="enter somewhere" @keyup.enter="query" v-model="city">
+            <button @click="query">query</button>
+        </div>
+        <div>
+            <a href="#" @click="change('北京')">北京</a>
+            <a href="#" @click="change('上海')">上海</a>
+            <a href="#" @click="change('广州')">广州</a>
+            <a href="#" @click="change('深圳')">深圳</a>
+        </div>
+        <div>
+            <li v-for="item in list">
+                {{item.date}} {{item.type}} {{item.low}}~{{item.high}}
+            </li>
+            {{gaomao}}
+        </div>
+    </div>
+    <script>
+        var weatherApp = new Vue({
+            el: "#weather",
+            data: {
+                city: "",
+                list: [],
+                gaomao: "",
+            },
+            methods: {
+                query: function () {
+                    var that = this;
+                    axios.get("http://wthrcdn.etouch.cn/weather_mini?city=" + this.city)
+                        .then(function (response) {
+                            console.log(response);
+                            that.list = response.data.data.forecast;
+                            that.gaomao = response.data.data.gaomao;
+                            that.list.unshift(response.data.data.yesterday);
+                        })
+                },
+                change: function (p) {
+                    this.city = p;
+                    this.query();
+                }
+            }
+        })
+    </script>
+    <!-- ------------------------------------------------------------- -->
+</body>
+
+
+</html>

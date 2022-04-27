@@ -1,0 +1,32 @@
+{% extends 'layout.html' %}
+{% block content %}
+
+<form action="{% url 'user_update' %}" method="post">
+    {% csrf_token %}
+    <input type="hidden" name="id" value="{{ userinfo.id }}">
+    <table>
+        <tr>
+            <td>username: </td>
+            <td><input type="text" name="username" value="{{ userinfo.username }}"></td>
+        </tr>
+        <tr>
+            <td>password: </td>
+            <td><input type="text" name="password" value="{{ userinfo.password }}"></td>
+        </tr>
+        <tr>
+            <td>age: </td>
+            <td><input type="number" name="age" value="{{ userinfo.age }}"></td>
+        </tr>
+        <tr>
+            <td>phone: </td>
+            <td><input type="text" name="phone" value="{{ userinfo.phone }}"></td>
+        </tr>
+        <tr>
+            <td colspan="2" align="center">
+                <input type="submit" value="save">
+                <input type="reset" value="reset">
+            </td>
+        </tr>
+    </table>
+</form>
+{% endblock %}

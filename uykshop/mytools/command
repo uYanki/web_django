@@ -1,0 +1,17 @@
+python manage.py runserver 
+
+django-admin startproject
+django-admin startapp 
+
+python manage.py makemigrations
+python manage.py migrate
+(生成迁移脚本和执行迁移脚本,并把迁移记录写入数据库中)
+如果迁移失效 删除数据库中对应的表和django_migrations中对应的表的迁移记录 
+
+settings.json调整python的格式化工具ep8Args的自动换行限制
+"python.formatting.autopep8Args": [
+        "--max-line-length=200",
+        "--aggressive",
+        "--ignore",
+        "E402",
+    ],

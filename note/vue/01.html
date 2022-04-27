@@ -1,0 +1,56 @@
+<!-- 输入叹号快速生成html模板 -->
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- 安装部署vue -->
+    <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+    <title>vue</title>
+</head>
+
+<body>
+    <!-- el 作用范围 -->
+    1.{{message}}
+    <div id="app1" class="app2">
+        2.{{message}}
+        <div>3.{{message}}</div>
+        <!-- 显示字典 -->
+        <p>
+            {{dict.name}}
+            {{dict.phone}}
+        </p>
+        <!-- 显示列表 -->
+        count = {{list.length}}
+        <ul>
+            <li>{{list[0]}}</li>
+            <li>{{list[1]}}</li>
+            <li>{{list[2]}}</li>
+        </ul>
+    </div>
+    <script>
+        /* 创建vue实例 */
+        var app = new Vue({
+
+            /* 设置挂载点（把该实例作用于哪个元素上） */
+            el: "#app1", //id选择器
+            // el: ".app2", //class选择器
+            // el: "div", //标签选择器(不可选择html标签和body标签)
+
+            /* 数据对象 */
+            data: {
+                message: "hello world",
+                dict: {
+                    name: 'vue',
+                    phone: '88888888'
+                },
+                list: ["item1", "item2", "item3"]
+            },
+        })  
+    </script>
+</body>
+
+</html>

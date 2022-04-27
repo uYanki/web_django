@@ -1,0 +1,33 @@
+{% extends 'layout.html' %}
+{% block content %}
+    <table border="1" style="border-spacing: 0;">
+    <thead>
+        <tr>
+            <td>id</td>
+            <td>username</td>
+            <td>password</td>
+            <td>age</td>
+            <td>phone</td>
+            <td>addtime</td>
+            <td>operations</td>
+        </tr>
+    </thead>
+    <tbody>
+        {% for user in userinfos %}
+            <tr>
+                <td>{{ user.id }}</td>
+                <td>{{ user.username }}</td>
+                <td>{{ user.password }}</td>
+                <td>{{ user.age }}</td>
+                <td>{{ user.phone }}</td>
+                <td>{{ user.addtime }}</td>
+                <td>
+                    <a href="{% url 'user_edit' user.id %}">edit</a>
+                    <a href="{% url 'user_del' user.id %}">del</a>
+                </td>
+            </tr>
+        {% endfor %}
+    </tbody>
+
+    </table>
+{% endblock %}

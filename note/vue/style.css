@@ -1,0 +1,12 @@
+/* 元素选择器 */ 
+h1{color: red;}
+/* id选择器 */ 
+#id{color:green;}
+/* class选择器 */
+.class{color: blue;}
+/* 子元素选择器 */
+#id1 #id2{color:red;}
+/* 相邻选择器 */
+#id1+h5{color:green;}
+/* 群组选择器 */
+p,span {color: blue;}

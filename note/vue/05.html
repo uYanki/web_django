@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <title>music</title>
+</head>
+
+<body>
+    <div id="player">
+        <div>
+            <input type="text" placeholder="enter something..." v-model="keywords" @keyup.enter="search">
+            <button @click="search">search</button>
+        </div>
+        <li v-for="(item,index) in songList" @click="play(item.id)">{{item.name}}</li>
+        <hr>
+        <img :src="imageUrl" width=200>
+        <audio ref='audio' :src="songUrl" controls autoplay loop @play="audioPlay" @pause="audioPause"></audio>
+        <!-- <video :src="mvUrl" controls="controls"></video> -->
+        <hr>
+        <div>
+            <h3>热门评论</h3>
+            <li v-for="(item,index) in hotComments">【{{item.timeStr}}】{{item.content}}</li>
+        </div>
+        <div>
+            <h3>最近评论</h3>
+            <li v-for="(item,index) in comments">【{{item.timeStr}}】{{item.content}}</li>
+        </div>
+    </div>
+    <script>
+        var app = new Vue({
+            el: "#player",
+            data: {
+                keywords: "五月天",
+                count: 0,
+                hasMore: false,
+                songList: [],
+                songUrl: "",
+                imageUrl: "",
+                comments: [],
+                hotComments: [],
+                mvUrl: "",
+            },
+            methods: {
+                search: function () {
+                    var that = this;
+                    axios.get("https://autumnfish.cn/search?keywords=" + this.keywords)
+                        .then(function (response) {
+                            console.log(response);
+                            that.hasMore = response.data.result.hasMore;
+                            that.count = response.data.result.songCount;
+                            that.songList = response.data.result.songs;
+                        }, function (err) { });
+                },
+                play: function (id) {
+                    var that = this;
+                    this.songUrl = "https://music.163.com/song/media/outer/url?id=" + id + ".mp3";
+                    axios.get("https://autumnfish.cn/comment/music?id=" + id)
+                        .then(function (response) {
+                            console.log(response);
+                            that.comments = response.data.comments;
+                            that.hotComments = response.data.hotComments;
+                        }, function (err) { });
+                },
+                audioPlay: function () { console.log("play"); },
+                audioPause: function () { console.log("pause") },
+            }
+        })
+    </script>
+</body>
+
+</html>
